@@ -8,7 +8,7 @@ const daiContract = artifacts.require("Dai");
 
 
 module.exports = async function(deployer, network, accounts) {
-  /*
+  
   // deployments
   
   await deployer.deploy(Migrations);
@@ -25,24 +25,18 @@ module.exports = async function(deployer, network, accounts) {
   const LiquidityManagement = await liquidityManagement.deployed();
   const InvestmentManagement = await investmentManagement.deployed();
   const ClaimsManagement = await claimsManagement.deployed();
-  // const ClaimsManagement = await claimsManagement.at("0xc4B8FC8A2a7B85eCFe7190b27DaB6069A571dAB5"); // testnet deployment
-  // const ClaimsManagement = await claimsManagement.at("0xF5e061A4A78Bff3494A28915661568397532AE69"); // mainnet deployment (Link River)
-  // const ClaimsManagement = await claimsManagement.at("0x9B57304007048100e2252543A6329491868Cc858"); // mainnet deployment (Matrixed.link)
   const dai = await daiContract.at("0x8f3cf7ad23cd3cadbd9735aff958023239c6a063"); 
   const link = await daiContract.at(
     "0xb0897686c545045afc77cf20ec7a532e3120e0f1" // mainnet address
     // "0x326C977E6efc84E512bB9C30f76E30c160eD06FB" // testnet address
   ); 
 
-
-  
-
   // initial setup
   
   await Promise.all([
     ContractRegistry.setKYCprovider(accounts[0]),
     ContractRegistry.setPaymentTokenContract(
-      "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063" // Matic Mainnet address
+      "0x8f3cf7ad23cd3cadbd9735aff958023239c6a063" // Matic Mainnet address for DAI
     ),
     ContractRegistry.setPolicyManagementContract(PolicyManagement.address),
     ContractRegistry.setLiquidityManagementContract(
@@ -93,7 +87,7 @@ module.exports = async function(deployer, network, accounts) {
 
 
   // set Oracle parameters and send LINK budget to the Claims Management contract
-  /*
+  
   await ClaimsManagement.setOracleParameters(1);
 
   console.log("Oracle parameters set to Matrixed.link provider");
@@ -109,9 +103,9 @@ module.exports = async function(deployer, network, accounts) {
   );
 
   console.log("LINK balance transfered");
-  */
+  
   // open LiqMgt for contributions, send starting capital in DAI, close contributions and activate
-  /*
+  
   await LiquidityManagement.openContractForContributions({
     from: accounts[0],
   });
@@ -129,16 +123,6 @@ module.exports = async function(deployer, network, accounts) {
     from: accounts[0],
   });
   console.log("Liquidity contract activated");
-  */
-  await dai.approve(LiquidityManagement.address, web3.utils.toWei("10"), {
-    from: accounts[0],
-  });
-  console.log("Approval for DAI payment completed");
-  await LiquidityManagement.addLiquidityViaRecapitalization(
-    web3.utils.toWei("10"),
-    { from: accounts[0] }
-  );
-  console.log("Additional liquidity added");
 
   /* TESTING INVESTMENT MANAGEMENT CONTRACT
 
@@ -198,9 +182,9 @@ module.exports = async function(deployer, network, accounts) {
 
   console.log(`Final Liquidity Management balance : ${fdaiBalance0}`);
 
-    */
+  */
 
-    /* ORACLE TEST
+  /* ORACLE TEST
   // transfering 0.01 LINK to the Claims Management contract
   
   const LINKbalance = await link.balanceOf(accounts[0]);
