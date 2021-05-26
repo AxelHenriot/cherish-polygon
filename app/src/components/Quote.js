@@ -61,10 +61,11 @@ const Quote = (props) => {
 
   const onSubmitQuotationParameters = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     
     const premiumAmount = await policyContract.methods.quote(age, isSmoker, paymentOption, web3.utils.toWei(payout)).call({ from: policyOwnerWallet });
     setQuote(web3.utils.fromWei(premiumAmount));
-
+    setIsLoading(false);
   };
 
   const onConfirmQuote = async (e) => {
